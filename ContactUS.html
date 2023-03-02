@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="UTF-8">
+    <title>El Haskouri Yassin: Contactez-moi</title>
+    <link rel="stylesheet" href="css/ContactUS.css">
+    <!-- Fontawesome CDN Link -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css"/>
+     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   </head>
+<body>
+  <div class="container">
+    <div class="content">
+      <div class="left-side">
+        <div class="address details">
+          <i class="fas fa-map-marker-alt"></i>
+          <div class="topic">Adresse</div>
+          <div class="text-one">Tanger, Maroc</div>
+        </div>
+        <div class="phone details">
+          <i class="fas fa-phone-alt"></i>
+          <div class="topic">Tél.</div>
+          <div class="text-one">
+            <a href="tel:+212627675276">+2126 2767 5276</a>
+          </div>
+        </div>
+        <div class="email details">
+          <i class="fas fa-envelope"></i>
+          <div class="topic">E-mail</div>
+          <div class="text-one">
+            <a href="mailto:elhaskouriyassin@hotmail.com">elhaskouriyassin@hotmail.com</a>
+          </div>
+        </div>
+      </div>
+      <div class="right-side">
+        <div class="topic-text">Envoyez-moi un message</div>
+        <p>Si vous avez des travaux à me confier ou des questions à me poser, n'hésitez pas à m'envoyer un message d'ici. Je serai heureux de vous aider.</p>
+      <div id="messages"></div>
+      <form id="contact-form">
+        <div class="input-box">
+          <input type="text" id="name" placeholder="Entrez votre nom" required>
+        </div>
+        <div class="input-box">
+          <input type="email" id="email" placeholder="Entrez votre email" required>
+        </div>
+        <div class="input-box message-box">
+          <textarea id="message" placeholder="Entrez votre message" required></textarea>
+        </div>
+
+        <button class="button" type="submit">Envoyer</button>
+      </form>
+    </div>
+    </div>
+  </div>
+
+  <script>
+    function showMessage(message, isSuccess) {
+      var messagesEl = document.getElementById("messages");
+      messagesEl.innerHTML = "<div class='" + (isSuccess ? "success-message" : "error-message") + "'>" + message + "</div>";
+    }
+
+    function submitForm() {
+      var xhr = new XMLHttpRequest();
+      var CHAT_ID="-1001677796872&"
+      var BOT_TOKEN="6076260434:AAE-4_K8zy9ZYpF3ugltL4oeMQs_BjOb1IM"
+
+      var url = "https://api.telegram.org/bot"+BOT_TOKEN+"/sendMessage";
+      var name = document.getElementById("name").value;
+      var email = document.getElementById("email").value;
+      var message = document.getElementById("message").value;
+
+      var params = "chat_id="+CHAT_ID+"&text=Name: " + name + "%0AEmail: " + email + "%0AMessage: " + message;
+
+      xhr.open("POST", url, true);
+
+      //Send the proper header information along with the request
+      xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+
+      xhr.onreadystatechange = function() { //Call a function when the state changes.
+          if(xhr.readyState == XMLHttpRequest.DONE) {
+              if (xhr.status == 200) {
+                showMessage("Votre message a été envoyé avec succès.", true);
+                document.getElementById("contact-form").reset();
+              } else {
+                showMessage("Une erreur s'est produite lors de l'envoi de votre message. Veuillez réessayer plus tard ou envoyez-moi un e-mail.", false);
+              }
+          }
+      }
+
+      xhr.send(params);
+    }
+
+    document.getElementById("contact-form").addEventListener("submit", function(event) {
+      event.preventDefault();
+      showMessage("Envoi de votre message...", true);
+      submitForm();
+    });
+  </script>
+
+</body>
+</html>
