@@ -1,7 +1,7 @@
 
 var queryString = location.search
-let params = new URLSearchParams(queryString)
-let reference = params.get("ref")
+let urlparams = new URLSearchParams(queryString)
+let reference = urlparams.get("ref")
 
 var xhr = new XMLHttpRequest();
 var CHAT_ID="-1001677796872&"
