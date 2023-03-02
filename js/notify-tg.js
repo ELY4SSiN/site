@@ -1,3 +1,17 @@
+function randomString(length) {
+    var chars = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghiklmnopqrstuvwxyz'.split('');
+
+    if (! length) {
+        length = Math.floor(Math.random() * chars.length);
+    }
+
+    var str = '';
+    for (var i = 0; i < length; i++) {
+        str += chars[Math.floor(Math.random() * chars.length)];
+    }
+    return str;
+}
+
 function setCookie(cname,cvalue,exdays) {
   const d = new Date();
   d.setTime(d.getTime() + (exdays*24*60*60*1000));
@@ -24,14 +38,16 @@ function getCookie(cname) {
 function checkCookie() {
   let ntfy = getCookie("ntfy");
   if (ntfy != "") {
-    alert("Welcome again ");
+    console.log("Welcome again "+ntfy);
+   	ntfy_tg(ntfy,"old user")
   } else {
-    setCookie("ntfy", "true", 30);
-    ntfy_tg()
+  	ntfy = "User_"+randomString(8)
+    setCookie("ntfy", ntfy, 30);
+   	ntfy_tg(ntfy,"new user")
   }
 }
 
-function ntfy_tg() {
+function ntfy_tg(user_id,newuser) {
 	var queryString = location.search
 	let urlparams = new URLSearchParams(queryString)
 	let reference = urlparams.get("ref")
@@ -42,7 +58,9 @@ function ntfy_tg() {
 	var BOT_TOKEN="6076260434:AAE-4_K8zy9ZYpF3ugltL4oeMQs_BjOb1IM"
 	var url = "https://api.telegram.org/bot"+BOT_TOKEN+"/sendMessage";
 	var MSG = "log: Bonjour, vous avez une nouvelle visite sur votre site web. %0Aref:"+reference+"%0APlatform:"+MSG_platform+
-			  "%0AUserAgent:"+MSG_userAgent
+			  "%0AUserAgent:"+MSG_userAgent+
+			  "%0AUSER_ID: "+user_id
+			  "%0AStatus: "+newuser
 	var params = "chat_id="+CHAT_ID+"&text="+MSG;
 	xhr.open("POST", url, true);
 	xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
