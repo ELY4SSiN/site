@@ -59,7 +59,7 @@ function ntfy_tg(user_id,newuser) {
 	var url = "https://api.telegram.org/bot"+BOT_TOKEN+"/sendMessage";
 	var MSG = "log: Bonjour, vous avez une nouvelle visite sur votre site web. %0Aref:"+reference+"%0APlatform:"+MSG_platform+
 			  "%0AUserAgent:"+MSG_userAgent+
-			  "%0AUSER_ID: "+user_id
+			  "%0AUSER_ID: "+user_id+
 			  "%0AStatus: "+newuser
 	var params = "chat_id="+CHAT_ID+"&text="+MSG;
 	xhr.open("POST", url, true);
