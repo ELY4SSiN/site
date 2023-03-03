@@ -51,6 +51,7 @@ function ntfy_tg(user_id,newuser) {
 	var queryString = location.search
 	//let urlparams = new URLSearchParams(queryString)
 	//let reference = urlparams.get("ref")
+	let online_ref = document.referrer
 	let MSG_userAgent = navigator["userAgent"]
 	let MSG_platform = navigator["platform"]
 	var xhr = new XMLHttpRequest();
@@ -58,6 +59,7 @@ function ntfy_tg(user_id,newuser) {
 	var BOT_TOKEN="6076260434:AAE-4_K8zy9ZYpF3ugltL4oeMQs_BjOb1IM"
 	var url = "https://api.telegram.org/bot"+BOT_TOKEN+"/sendMessage";
 	var MSG = "log: Bonjour, vous avez une nouvelle visite sur votre site web. %0Aref:"+queryString+
+	    		  "%0AOnline Ref:"+online_ref+
 	    		  "%0APlatform:"+MSG_platform+
 			  "%0AUserAgent:"+MSG_userAgent+
 			  "%0AUSER_ID: "+user_id+
